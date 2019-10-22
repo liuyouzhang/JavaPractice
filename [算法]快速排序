@@ -1,0 +1,92 @@
+package com.test;
+
+/*
+ * 快速排序示例
+ * 用java整数数组进行排序，0表示无元素
+ * Author:liuyouhang Date:2019-10-08
+ */
+public class QuickSortTest {
+	
+	static int[] a={7,19,9,12,5,10,21,11,6,13,67,34};
+	static final int arrCount = a.length;//数据元素的个数,最大下标索引为arrCount-1
+	
+	public static void main(String[] args){
+		printArr(sort(a,0,arrCount));
+	}
+	
+	/*
+	 * 快速排序
+	 */
+	public static int[] sort(int[] arr,int str ,int end){
+		
+		if(end<1){
+			if(arr!=null && arr[end]>0){
+				return new int[]{arr[end]};
+			}else{
+				return null;
+			}
+		}
+		System.out.println("begin");
+		printArr(arr);
+		System.out.println(str+"-"+end);
+		int[] a = new int[arrCount];
+		int[] b = new int[arrCount];
+		int aCount=0,bCount=0,abMiddleIndex=0;
+		for(int i=0;i<end;i++){
+			if(arr[i]<arr[(str+end)/2]){
+				a[aCount]=arr[i];
+				aCount++;
+			}else if(arr[i]>arr[(str+end)/2]){
+				b[bCount]=arr[i];
+				bCount++;
+			}else{
+				abMiddleIndex=i;//中间值，“哨兵”
+			}
+		}
+		printArr(a);printArr(b);
+		System.out.println("aCount="+aCount+";bCount="+bCount+";abMiddleIndex="+abMiddleIndex);
+		System.out.println("end");
+		if(aCount==bCount && aCount==0){
+			return new int[]{arr[abMiddleIndex]};
+		}
+		return mergeArr(sort(a,0,aCount),arr[abMiddleIndex],sort(b,0,bCount));
+	} 
+	
+	/*
+	 * 数组拼接
+	 */
+	public static int[] mergeArr(int[] a,int e,int[] b){
+		
+		int[] res= new int[arrCount];
+		int aCount = 0;
+		for(int i=0;a!=null && i<a.length;i++){
+			if(a[i]>0){
+				res[i]=a[i];
+				aCount++;
+			}
+		}
+		res[aCount]=e;
+		for(int i=0;b!=null && i<b.length;i++){
+			if(b[i]>0)
+			res[i+aCount+1]=b[i];
+		}
+		return res;
+	}
+	
+	/*
+	 * 数组打印
+	 */
+	public static void printArr(int[] a){
+		for(int i=0;i<a.length;i++){
+			if(a[i]>0){
+				System.out.print(a[i]);
+				if(i<a.length-1){
+					System.out.print(",");
+				}else{
+					System.out.println("");
+				}
+			}
+		}
+		System.out.println("");
+	}
+}
